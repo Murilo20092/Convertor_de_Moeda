@@ -12,4 +12,4 @@ O projeto funciona de maneira simples, no espaço em branco onde se possibilida 
 
 O projeto foi criado com a finalidade em exercitar a minha capacidade de entender o front-end e aperfeiçoar ele da forma que eu bem entender, também foi criado com o propósito de facilitar a compreensão de um valor estimado em outra moeda(com a taxa inserida na conversão da moeda), por isso que logo de ante mão vos digo que o projeto/site não realiza conversões de fato, pois não tem ligação com conta bancárias e etc, sendo ultilizado somente para ciência daqueles que usufrui do site.
 
-("Conversão mobile" é versão mobile & "Transição da moeda" é a versão pc, ambas carregam as mesmas funções)
+("app.html" é versão mobile & "valor.html" é a versão pc, ambas carregam as mesmas funções)
