@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Moedas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-image: url('https://i.pinimg.com/736x/99/cd/0f/99cd0f53f73593cd654e461a5f9996fa.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: black;
+            margin-bottom: 25px;
+        }
+        label {
+            color: white;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-align: left;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background-color: #00b894;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #019875;
+        }
+        .resultado {
+            margin-top: 20px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .btn-wallpaper {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00b894, #019875);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .btn-wallpaper:hover {
+            background: linear-gradient(135deg, #019875, #00b894);
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .modal-content img {
+            width: 500px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .arrow {
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            margin: 10px;
+            transition: 0.3s;
+        }
+        .arrow:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background-color: crimson;
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .close-btn:hover {
+            background-color: darkred;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Conversor de Moedas</h1>
+
+        <label id="labelValor">Valor em Reais (R$):</label>
+        <input type="number" id="valor" placeholder="Digite o valor">
+
+        <label id="labelMoeda">Converter para:</label>
+        <select id="moeda">
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+            <option value="GBP">Libra (GBP)</option>
+            <option value="JPY">Iene (JPY)</option>
+        </select>
+
+        <button onclick="converter()">𝐂𝐨𝐧𝐯𝐞𝐫𝐭𝐞𝐫</button>
+        <button onclick="inverter()">𝐢𝐧𝐯𝐞𝐫𝐭𝐞𝐫</button>
+
+        <div class="resultado" id="resultado"></div>
+    </div>
+
+    <!-- Botão Papel de Parede -->
+    <button class="btn-wallpaper" onclick="abrirModal()">🖼️ Papel de Parede</button>
+
+    <!-- Modal de Wallpaper -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="fecharModal()">X</button>
+            <div>
+                <button class="arrow" onclick="voltarWallpaper()">←</button>
+                <img id="img-wallpaper" src="">
+                <button class="arrow" onclick="avancarWallpaper()">→</button>
+            </div>
+            <br>
+            <button class="arrow" onclick="document.getElementById('uploadInput').click()">Upload</button>
+            <input type="file" id="uploadInput" accept="image/*" style="display: none;">
+        </div>
+    </div>
+
+    <footer>
+        © 2025 - Desenvolvido por Murilo Ribeiro
+    </footer>
+
+    <script>
+        let invertido = false;
+
+        function converter() {
+            const valor = parseFloat(document.getElementById('valor').value);
+            const moeda = document.getElementById('moeda').value;
+            const resultado = document.getElementById('resultado');
+
+            if (isNaN(valor) || valor <= 0) {
+                resultado.innerHTML = "Por favor, digite um valor válido.";
+                return;
+            }
+
+            const taxas = {
+                USD: 0.18,
+                EUR: 0.16,
+                GBP: 0.14,
+                JPY: 20.50
+            };
+
+            let convertido;
+
+            if (!invertido) {
+                convertido = valor * taxas[moeda];
+                resultado.innerHTML = `R$ ${valor.toFixed(2)} = ${convertido.toFixed(2)} ${moeda}`;
+            } else {
+                convertido = valor / taxas[moeda];
+                resultado.innerHTML = `${valor.toFixed(2)} ${moeda} = R$ ${convertido.toFixed(2)}`;
+            }
+        }
+
+        function inverter() {
+            invertido = !invertido;
+
+            const labelValor = document.getElementById('labelValor');
+            const labelMoeda = document.getElementById('labelMoeda');
+
+            if (invertido) {
+                labelValor.innerText = "Valor em Moeda Estrangeira:";
+                labelMoeda.innerText = "Converter para Real (R$):";
+            } else {
+                labelValor.innerText = "Valor em Reais (R$):";
+                labelMoeda.innerText = "Converter para:";
+            }
+
+            document.getElementById('resultado').innerHTML = "";
+            document.getElementById('valor').value = "";
+        }
+
+        const wallpapers = [
+            'https://i.pinimg.com/736x/d3/65/00/d36500786d133155cbef79b2c258f058.jpg',
+            'https://i.pinimg.com/736x/4a/10/16/4a10165616c9c59e751b018769924f6a.jpg',
+            'https://i.pinimg.com/736x/17/cb/75/17cb750628116a2cb971224c0985b7c3.jpg',
+            'https://i.pinimg.com/736x/04/ac/c1/04acc1f494c63fb35c0cd369f6d1144c.jpg',
+            'https://i.pinimg.com/736x/e2/b1/2e/e2b12e39733d55d0e36b96fc4a149857.jpg'
+        ];
+
+        let indexWallpaper = 0;
+
+        function abrirModal() {
+            document.getElementById('modal').style.display = 'flex';
+            mostrarWallpaper();
+        }
+
+        function fecharModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function mostrarWallpaper() {
+            document.getElementById('img-wallpaper').src = wallpapers[indexWallpaper];
+        }
+
+        function avancarWallpaper() {
+            indexWallpaper = (indexWallpaper + 1) % wallpapers.length;
+            mostrarWallpaper();
+        }
+
+        function voltarWallpaper() {
+            indexWallpaper = (indexWallpaper - 1 + wallpapers.length) % wallpapers.length;
+            mostrarWallpaper();
+        }
+
+        document.getElementById('img-wallpaper').onclick = function() {
+            document.body.style.backgroundImage = `url('${wallpapers[indexWallpaper]}')`;
+            fecharModal();
+        }
+
+        document.getElementById('uploadInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.body.style.backgroundImage = `url('${e.target.result}')`;
+                fecharModal();
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+
+</body>
+</html>
